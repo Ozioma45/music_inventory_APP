@@ -1,0 +1,21 @@
+<!-- inventory_app/views/categories.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" />
+    <title>Categories</title>
+  </head>
+  <body>
+    <h1>Categories</h1>
+    <ul>
+      <% categories.forEach(category => { %>
+      <li><a href="/categories/<%= category.id %>"><%= category.name %></a></li>
+      <% }) %>
+    </ul>
+    <a href="/">Back to Home</a>
+  </body>
+</html>

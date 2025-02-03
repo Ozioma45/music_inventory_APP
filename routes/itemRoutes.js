@@ -12,7 +12,7 @@ const {
 router.get("/", async (req, res) => {
   try {
     const items = await getAllItems();
-    res.json(items);
+    res.render("items", { items });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

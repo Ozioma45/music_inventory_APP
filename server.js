@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const { Pool } = require("pg");
+const path = require("path");
 require("dotenv").config();
 const pool = require("./db");
 
@@ -10,10 +11,12 @@ const port = process.env.PORT || 3000;
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 // Routes placeholder
 app.get("/", (req, res) => {
-  res.send("Welcome to the Inventory Management App");
+  res.render("index", { title: "Inventory Management" });
 });
 
 // Category Routes
