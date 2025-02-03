@@ -6,6 +6,13 @@
     <title>Edit Category</title>
   </head>
   <body>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/categories">Categories</a></li>
+        <li><a href="/items">Items</a></li>
+      </ul>
+    </nav>
     <h1>Edit Category</h1>
     <form action="/categories/edit/<%= category.id %>" method="POST">
       <label for="name">Category Name:</label>
@@ -20,6 +27,7 @@
       <textarea id="description" name="description">
 <%= category.description %></textarea
       >
+
       <br />
       <button type="submit">Update Category</button>
     </form>

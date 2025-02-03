@@ -8,6 +8,22 @@ const {
   deleteCategory,
 } = require("../models/category");
 
+// Show form to add a new category
+router.get("/add", (req, res) => {
+  res.render("add_category");
+});
+
+// Handle form submission
+router.post("/add", async (req, res) => {
+  try {
+    const { name, description } = req.body;
+    await createCategory(name, description);
+    res.redirect("/categories");
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Get all categories
 router.get("/", async (req, res) => {
   try {
@@ -81,22 +97,6 @@ router.delete("/:id", async (req, res) => {
   try {
     await deleteCategory(req.params.id);
     res.json({ message: "Category deleted" });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// Show form to add a new category
-router.get("/add", (req, res) => {
-  res.render("add_category");
-});
-
-// Handle form submission
-router.post("/add", async (req, res) => {
-  try {
-    const { name, description } = req.body;
-    await createCategory(name, description);
-    res.redirect("/categories");
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

@@ -6,15 +6,25 @@
     <title>Add Category</title>
   </head>
   <body>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/categories">Categories</a></li>
+        <li><a href="/items">Items</a></li>
+      </ul>
+    </nav>
     <h1>Add a New Category</h1>
     <form action="/categories/add" method="POST">
       <label for="name">Category Name:</label>
       <input type="text" id="name" name="name" required />
       <br />
       <label for="description">Description:</label>
-      <textarea id="description" name="description"></textarea>
+      <textarea
+        id="description"
+        name="description"
+        class="u-full-width"></textarea>
       <br />
-      <button type="submit">Add Category</button>
+      <button type="submit" class="button-primary">Add Category</button>
     </form>
     <a href="/">Back to Home</a>
   </body>

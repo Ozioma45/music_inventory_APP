@@ -7,6 +7,13 @@
     <title>Edit Item</title>
 </head>
 <body>
+    <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/categories">Categories</a></li>
+          <li><a href="/items">Items</a></li>
+        </ul>
+      </nav>
     <h1>Edit Item</h1>
     <form action="/items/edit/<%= item.id %>" method="POST">
         <label for="name">Item Name:</label>
@@ -24,7 +31,10 @@
         <label for="category_id">Category:</label>
         <select id="category_id" name="category_id" required>
             <% categories.forEach(category => { %>
-                <option value="<%= category.id %>" <%= item.category_id === category.id ? 'selected' : '' %>><%= category.name %></option>
+                <option value="<%= category.id %>" <%= item.category_id == category.id ? 'selected' : '' %>>
+                    <%= category.name %>
+                  </option>
+                  
             <% }) %>
         </select>
         <br>

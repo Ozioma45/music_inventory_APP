@@ -10,10 +10,33 @@
     <title>Categories</title>
   </head>
   <body>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/categories">Categories</a></li>
+        <li><a href="/items">Items</a></li>
+      </ul>
+    </nav>
     <h1>Categories</h1>
+    <a href="/categories/add">
+      <button>Add New Category</button>
+    </a>
     <ul>
-      <% categories.forEach(category => { %>
+      <!-- <% categories.forEach(category => { %>
       <li><a href="/categories/<%= category.id %>"><%= category.name %></a></li>
+      <% }) %> -->
+      <% categories.forEach(category => { %>
+      <li>
+        <%= category.name %>
+        <form
+          action="/categories/delete/<%= category.id %>"
+          method="POST"
+          style="display: inline">
+          <button type="submit" onclick="return confirm('Are you sure?')">
+            Delete
+          </button>
+        </form>
+      </li>
       <% }) %>
     </ul>
     <a href="/">Back to Home</a>
