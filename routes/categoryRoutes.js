@@ -30,7 +30,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // Create a new category
-router.post("/", async (req, res) => {
+/* router.post("/", async (req, res) => {
   try {
     const { name, description } = req.body;
     const newCategory = await createCategory(name, description);
@@ -38,7 +38,7 @@ router.post("/", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-});
+}); */
 
 // Update a category
 router.put("/:id", async (req, res) => {
@@ -60,6 +60,22 @@ router.delete("/:id", async (req, res) => {
   try {
     await deleteCategory(req.params.id);
     res.json({ message: "Category deleted" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Show form to add a new category
+router.get("/add", (req, res) => {
+  res.render("add_category");
+});
+
+// Handle form submission
+router.post("/add", async (req, res) => {
+  try {
+    const { name, description } = req.body;
+    await createCategory(name, description);
+    res.redirect("/categories");
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

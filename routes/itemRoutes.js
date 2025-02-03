@@ -8,6 +8,8 @@ const {
   deleteItem,
 } = require("../models/items");
 
+const { getAllCategories } = require("../models/category");
+
 // Get all items
 router.get("/", async (req, res) => {
   try {
@@ -30,7 +32,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // Create a new item
-router.post("/", async (req, res) => {
+/* router.post("/", async (req, res) => {
   try {
     const { name, description, price, stock_quantity, category_id } = req.body;
     const newItem = await createItem(
@@ -44,7 +46,7 @@ router.post("/", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-});
+}); */
 
 // Update an item
 router.put("/:id", async (req, res) => {
@@ -69,6 +71,27 @@ router.delete("/:id", async (req, res) => {
   try {
     await deleteItem(req.params.id);
     res.json({ message: "Item deleted" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Show form to add a new item
+router.get("/add", async (req, res) => {
+  try {
+    const categories = await getAllCategories();
+    res.render("add_item", { categories });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Handle form submission
+router.post("/add", async (req, res) => {
+  try {
+    const { name, description, price, stock_quantity, category_id } = req.body;
+    await createItem(name, description, price, stock_quantity, category_id);
+    res.redirect("/items");
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
