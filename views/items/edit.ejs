@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" />
+    <title>Document</title>
+</head>
+<body>
+    <h1>Edit Item</h1>
+<form action="/items/<%= item.id %>" method="POST">
+  <label>Name: <input type="text" name="name" value="<%= item.name %>" required /></label><br />
+  <label>Category:
+    <select name="category_id" required>
+      <% categories.forEach(category => { %>
+        <option value="<%= category.id %>" <%= item.category_id === category.id ? 'selected' : '' %> >
+          <%= category.name %>
+        </option>
+      <% }) %>
+    </select>
+  </label><br />
+  <label>Price: <input type="number" name="price" step="0.01" value="<%= item.price %>" required /></label><br />
+  <label>Quantity: <input type="number" name="quantity" value="<%= item.quantity %>" required /></label><br />
+  <label>Description: <textarea name="description"><%= item.description %></textarea></label><br />
+  <button type="submit">Update</button>
+</form>
+<a href="/items/category/<%= item.category_id %>">Back to Items</a>
+
+</body>
+</html>

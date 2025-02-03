@@ -10,6 +10,7 @@
   </head>
   <body>
     <h1>Items in <%= category.name %></h1>
+    <p><b>Category Description:</b> <%= category.description %></p>
     <a href="/items/new">Add New Item</a>
     <ul>
       <% category.items.forEach(item => { %>
