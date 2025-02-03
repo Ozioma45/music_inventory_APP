@@ -49,7 +49,7 @@ router.get("/:id", async (req, res) => {
 }); */
 
 // Update an item
-router.put("/:id", async (req, res) => {
+/* router.put("/:id", async (req, res) => {
   try {
     const { name, description, price, stock_quantity, category_id } = req.body;
     const updatedItem = await updateItem(
@@ -61,6 +61,35 @@ router.put("/:id", async (req, res) => {
       category_id
     );
     res.json(updatedItem);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}); */
+
+// Show form to edit an item
+router.get("/edit/:id", async (req, res) => {
+  try {
+    const item = await getItemById(req.params.id);
+    const categories = await getAllCategories();
+    res.render("edit_item", { item, categories });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Handle item update
+router.post("/edit/:id", async (req, res) => {
+  try {
+    const { name, description, price, stock_quantity, category_id } = req.body;
+    await updateItem(
+      req.params.id,
+      name,
+      description,
+      price,
+      stock_quantity,
+      category_id
+    );
+    res.redirect("/items");
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

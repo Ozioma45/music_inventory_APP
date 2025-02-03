@@ -41,7 +41,7 @@ router.get("/:id", async (req, res) => {
 }); */
 
 // Update a category
-router.put("/:id", async (req, res) => {
+/* router.put("/:id", async (req, res) => {
   try {
     const { name, description } = req.body;
     const updatedCategory = await updateCategory(
@@ -50,6 +50,27 @@ router.put("/:id", async (req, res) => {
       description
     );
     res.json(updatedCategory);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}); */
+
+// Show form to edit a category
+router.get("/edit/:id", async (req, res) => {
+  try {
+    const category = await getCategoryById(req.params.id);
+    res.render("edit_category", { category });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Handle category update
+router.post("/edit/:id", async (req, res) => {
+  try {
+    const { name, description } = req.body;
+    await updateCategory(req.params.id, name, description);
+    res.redirect("/categories");
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
