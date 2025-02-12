@@ -2,8 +2,13 @@ const pool = require("../db");
 
 // Get all categories
 const getAllCategories = async () => {
-  const result = await pool.query("SELECT * FROM categories ORDER BY name;");
-  return result.rows;
+  try {
+    const result = await pool.query("SELECT * FROM categories ORDER BY name;");
+    return result.rows;
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    throw error;
+  }
 };
 
 // Get category by ID
@@ -34,7 +39,11 @@ const updateCategory = async (id, name, description) => {
 
 // Delete category
 const deleteCategory = async (id) => {
-  await pool.query("DELETE FROM categories WHERE id = $1;", [id]);
+  const result = await pool.query(
+    "DELETE FROM categories WHERE id = $1 RETURNING *;",
+    [id]
+  );
+  return result.rowCount > 0; // Return true if deleted
 };
 
 module.exports = {

@@ -45,36 +45,11 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Create a new category
-/* router.post("/", async (req, res) => {
-  try {
-    const { name, description } = req.body;
-    const newCategory = await createCategory(name, description);
-    res.status(201).json(newCategory);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-}); */
-
-// Update a category
-/* router.put("/:id", async (req, res) => {
-  try {
-    const { name, description } = req.body;
-    const updatedCategory = await updateCategory(
-      req.params.id,
-      name,
-      description
-    );
-    res.json(updatedCategory);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-}); */
-
 // Show form to edit a category
 router.get("/edit/:id", async (req, res) => {
   try {
     const category = await getCategoryById(req.params.id);
+    if (!category) return res.status(404).json({ error: "Category not found" });
     res.render("edit_category", { category });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -95,8 +70,12 @@ router.post("/edit/:id", async (req, res) => {
 // Delete a category
 router.delete("/:id", async (req, res) => {
   try {
-    await deleteCategory(req.params.id);
-    res.json({ message: "Category deleted" });
+    const result = await deleteCategory(req.params.id);
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: "Category not found" });
+    }
+    //res.json({ message: "Category deleted successfully" });
+    res.redirect("/categories");
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

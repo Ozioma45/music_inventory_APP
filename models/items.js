@@ -45,7 +45,8 @@ const updateItem = async (
 
 // Delete item
 const deleteItem = async (id) => {
-  await pool.query("DELETE FROM items WHERE id = $1;", [id]);
+  const result = await pool.query("DELETE FROM items WHERE id = $1;", [id]);
+  return result;
 };
 
 module.exports = {

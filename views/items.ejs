@@ -21,11 +21,29 @@
     <a href="/items/add">
       <button>Add New Item</button>
     </a>
-    <ul>
-      <% items.forEach(item => { %>
-      <li><%= item.name %> - $<%= item.price %></li>
-      <% }) %>
-    </ul>
+    <!-- Loop through items and display them -->
+    <% items.forEach(item => { %>
+    <div class="item">
+      <h3><%= item.name %></h3>
+      <p><%= item.description %></p>
+      <p><%= item.price %></p>
+      <p><%= item.stock_quantity %></p>
+
+      <!-- Edit button -->
+      <a href="/items/edit/<%= item.id %>" class="btn btn-primary">Edit</a>
+
+      <!-- Optionally, a Delete button if needed -->
+      <form action="/items/<%= item.id %>?_method=DELETE" method="POST">
+        <input type="hidden" name="_method" value="DELETE" />
+        <button type="submit" class="btn btn-danger delete-button">
+          Delete
+        </button>
+      </form>
+    </div>
+    <% }); %>
+
     <a href="/">Back to Home</a>
+
+    <script src="../public/script.js"></script>
   </body>
 </html>

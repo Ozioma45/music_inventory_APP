@@ -52,46 +52,12 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Create a new item
-/* router.post("/", async (req, res) => {
-  try {
-    const { name, description, price, stock_quantity, category_id } = req.body;
-    const newItem = await createItem(
-      name,
-      description,
-      price,
-      stock_quantity,
-      category_id
-    );
-    res.status(201).json(newItem);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-}); */
-
-// Update an item
-/* router.put("/:id", async (req, res) => {
-  try {
-    const { name, description, price, stock_quantity, category_id } = req.body;
-    const updatedItem = await updateItem(
-      req.params.id,
-      name,
-      description,
-      price,
-      stock_quantity,
-      category_id
-    );
-    res.json(updatedItem);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-}); */
-
 // Show form to edit an item
 router.get("/edit/:id", async (req, res) => {
   try {
     const item = await getItemById(req.params.id);
     const categories = await getAllCategories();
+    if (!item) return res.status(404).json({ error: "Item not found" });
     res.render("edit_item", { item, categories });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -119,8 +85,12 @@ router.post("/edit/:id", async (req, res) => {
 // Delete an item
 router.delete("/:id", async (req, res) => {
   try {
-    await deleteItem(req.params.id);
-    res.json({ message: "Item deleted" });
+    const result = await deleteItem(req.params.id);
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: "Item not found" });
+    }
+    /* res.json({ message: "Item deleted successfully" }); */
+    res.redirect("/items");
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

@@ -7,6 +7,8 @@
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <title>Categories</title>
   </head>
   <body>
@@ -21,24 +23,28 @@
     <a href="/categories/add">
       <button>Add New Category</button>
     </a>
-    <ul>
-      <!-- <% categories.forEach(category => { %>
-      <li><a href="/categories/<%= category.id %>"><%= category.name %></a></li>
-      <% }) %> -->
-      <% categories.forEach(category => { %>
-      <li>
-        <%= category.name %>
-        <form
-          action="/categories/delete/<%= category.id %>"
-          method="POST"
-          style="display: inline">
-          <button type="submit" onclick="return confirm('Are you sure?')">
-            Delete
-          </button>
-        </form>
-      </li>
-      <% }) %>
-    </ul>
+    <% categories.forEach(category => { %>
+    <div class="category">
+      <h3><%= category.name %></h3>
+      <p><%= category.description %></p>
+
+      <!-- Edit button -->
+      <a href="/categories/edit/<%= category.id %>" class="btn btn-primary"
+        >Edit</a
+      >
+
+      <!-- Delete button -->
+      <form
+        action="/categories/<%= category.id %>?_method=DELETE"
+        method="POST">
+        <button type="submit" class="btn btn-danger delete-button">
+          Delete
+        </button>
+      </form>
+    </div>
+    <% }); %>
     <a href="/">Back to Home</a>
+
+    <script src="../public/script.js"></script>
   </body>
 </html>
