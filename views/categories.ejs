@@ -8,6 +8,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <title>Categories</title>
   </head>
@@ -34,17 +35,50 @@
       >
 
       <!-- Delete button -->
-      <form
-        action="/categories/<%= category.id %>?_method=DELETE"
-        method="POST">
-        <button type="submit" class="btn btn-danger delete-button">
-          Delete
-        </button>
-      </form>
+
+      <button data-id="<%= category.id %>" class="btn btn-danger delete-button">
+        Delete
+      </button>
     </div>
     <% }); %>
     <a href="/">Back to Home</a>
 
     <script src="../public/script.js"></script>
+    <script>
+      $(document).ready(function () {
+        $(".delete-button").click(function () {
+          let categoryId = $(this).data("id"); // Get category ID from button
+
+          Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, delete it!",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              $.ajax({
+                url: `/categories/${categoryId}`,
+                type: "DELETE",
+                success: function (response) {
+                  Swal.fire(
+                    "Deleted!",
+                    "Category has been deleted.",
+                    "success"
+                  ).then(() => {
+                    location.reload(); // Reload the page after deletion
+                  });
+                },
+                error: function (error) {
+                  Swal.fire("Error!", "Something went wrong.", "error");
+                },
+              });
+            }
+          });
+        });
+      });
+    </script>
   </body>
 </html>
